@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>onmouseover 全パターン統合テスト</title>
+    <style>
+        .target {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 3px solid #ccc;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .newline-target {
+            border-color: darkred; /* 視覚的に区別 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>onmouseover 全パターン統合動作確認 (サーバー不要)</h1>
+    <p>マウスカーソルを以下の枠内に乗せてみてください。</p>
+
+    <div 
+        class="target"
+        onmouseover="this.style.backgroundColor='yellow';"
+        onmouseout="this.style.backgroundColor='#f0f0f0';"
+    >
+        1. 【インライン】: カーソルを乗せると黄色に変わります。
+    </div>
+
+    <div class="target" id="dom-target">
+        2. 【DOM代入】: カーソルを乗せると緑色に変わります。
+    </div>
+
+    <div class="target" id="listener-target">
+        3. 【リスナー】: カーソルを乗せると青色に変わります。
+    </div>
+
+    <div 
+        class="target newline-target"
+        style="background-color: #ffebee;"
+        
+onmouseover="this.style.backgroundColor='darkred'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='#ffebee'; this.style.color='black';"
+    >
+        4. 【改行アタック風】: **onmouseoverの前に改行**があっても動作します。
+    </div>
+
+    <script>
+        // 2. <script>タグ内 DOM代入 パターンの実装
+        const domTarget = document.getElementById('dom-target');
+        domTarget.onmouseover = function() {
+            domTarget.style.backgroundColor = 'lightgreen';
+        };
+        domTarget.onmouseout = function() {
+            domTarget.style.backgroundColor = '#f0f0f0';
+        };
+
+        // 3. イベントリスナー パターンの実装
+        const listenerTarget = document.getElementById('listener-target');
+        // addEventListener を使用
+        listenerTarget.addEventListener('mouseover', function() {
+            listenerTarget.style.backgroundColor = 'lightblue';
+        });
+        listenerTarget.addEventListener('mouseout', function() {
+            listenerTarget.style.backgroundColor = '#f0f0f0';
+        });
+    </script>
+
+</body>
+</html>
